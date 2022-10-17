@@ -37,12 +37,17 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="SelectButton" Margin="30,10,30,10" Click="SelectButton_Click">
+                    <Button x:Name="SelectButton" Margin="10,10,10,10" Click="SelectButton_Click">
                         选择图片
                     </Button>
-                    <Button x:Name="ShotButton" Grid.Column="1" Margin="30,10,30,10" IsEnabled="False" Click="ShotButton_Click">
+                    <Button x:Name="ShotButton" Grid.Column="1" Margin="10,10,10,10" IsEnabled="False" Click="ShotButton_Click">
                         拍照
+                    </Button>
+                    <Button x:Name="GenerateQrButton" Grid.Column="2" Margin="10,10,10,10" IsEnabled="True" 
+                            ToolTip="将右边文本转换为二维码" Click="GenerateQrButton_Click">
+                        生成
                     </Button>
                 </Grid>
             </Grid>
@@ -79,7 +84,7 @@
                     <TextBox x:Name="MessageBlock" TextWrapping="Wrap" 
                              Width="{Binding ActualWidth, ElementName=MessageBlockCanvas}"
                              Height="{Binding ActualHeight, ElementName=MessageBlockCanvas}"
-                             VerticalScrollBarVisibility="Visible" IsReadOnly="True" 
+                             VerticalScrollBarVisibility="Visible" 
                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 </Canvas>
             </Grid>

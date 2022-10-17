@@ -23,7 +23,7 @@ namespace PcQrReader
     public partial class MainWindow : Window
     {
         private QrHelper _qrHelper;
-        private CustomFilterInfo[] _cameras;
+        private List<CustomFilterInfo> _cameras;
         private string _imageName;
 
         public MainWindow()
@@ -36,22 +36,24 @@ namespace PcQrReader
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _cameras = _qrHelper.GetFilterInfo();
+            _cameras.Insert(0, new CustomFilterInfo(""));
             CameraComboBox.ItemsSource = _cameras;
-            if (_cameras != null)
-            {
-                CameraComboBox.SelectedIndex = 0;
-            }
+            CameraComboBox.SelectedIndex = 0;
         }
 
         private void CameraComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_cameras.Length > 0 && (sender is ComboBox comboBox) && comboBox.SelectedIndex > -1)
+            if (_cameras.Count > 1 && (sender is ComboBox comboBox) && comboBox.SelectedIndex > 0)
             {
                 videoSourcePlayer.VideoSource = _qrHelper.OpenDevice(_cameras[comboBox.SelectedIndex]);
                 videoSourcePlayer.Start();
 
                 ShotButton.IsEnabled = true;//开启“拍摄功能”
                 AutoRecognizeChectBox.IsEnabled = true;
+            }
+            else
+            {
+                _qrHelper.CloseVideoSource();
             }
         }
 
@@ -93,6 +95,7 @@ namespace PcQrReader
         {
             RecognizeButton.IsEnabled = false;
             SelectButton.IsEnabled = false;
+            GenerateQrButton.IsEnabled = false;
             while (AutoRecognizeChectBox.IsChecked == true)
             {
                 using (var img = videoSourcePlayer.GetCurrentVideoFrame())
@@ -112,6 +115,7 @@ namespace PcQrReader
         {
             RecognizeButton.IsEnabled = true;
             SelectButton.IsEnabled = true;
+            GenerateQrButton.IsEnabled = true;
         }
 
         private void RecognizeButton_Click(object sender, RoutedEventArgs e)
@@ -140,6 +144,18 @@ namespace PcQrReader
                 AutoRecognizeChectBox.IsChecked = false;
                 return true;
             }
+        }
+
+        private void GenerateQrButton_Click(object sender, RoutedEventArgs e)
+        {
+            var text = MessageBlock.Text;
+            if (string.IsNullOrEmpty(text))
+            {
+                MessageBox.Show("请先在文本框内输入文本");
+                return;
+            }
+            var map = _qrHelper.GenerateQr(MessageBlock.Text);
+            ImageArea.Source = map.ToBitmapImage();
         }
     }
 }
