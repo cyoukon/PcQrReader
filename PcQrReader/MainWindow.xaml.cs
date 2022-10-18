@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
@@ -36,7 +37,7 @@ namespace PcQrReader
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _cameras = _qrHelper.GetFilterInfo();
-            _cameras.Insert(0, new CustomFilterInfo(""));
+            _cameras.Insert(0, new CustomFilterInfo("", "请选择一个摄像头"));
             CameraComboBox.ItemsSource = _cameras;
             CameraComboBox.SelectedIndex = 0;
         }
@@ -54,6 +55,9 @@ namespace PcQrReader
             else
             {
                 _qrHelper.CloseVideoSource();
+
+                ShotButton.IsEnabled = false;
+                AutoRecognizeChectBox.IsEnabled = false;
             }
         }
 
@@ -156,6 +160,66 @@ namespace PcQrReader
             }
             var map = _qrHelper.GenerateQr(MessageBlock.Text);
             ImageArea.Source = map.ToBitmapImage();
+        }
+
+        private void Window_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            if (MessageBlock.IsKeyboardFocused)
+            {
+                if (e.Key == Key.Escape)
+                {
+                    Keyboard.ClearFocus();
+                    e.Handled = true;
+                }
+                return;
+            }
+            switch (e.Key)
+            {
+                case Key.C:
+                    CameraComboBox.IsDropDownOpen = true;
+                    e.Handled = true;
+                    break;
+                case Key.P:
+                    SelectButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                    e.Handled = true;
+                    break;
+                case Key.S:
+                    ShotButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                    e.Handled = true;
+                    break;
+                case Key.G:
+                    GenerateQrButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                    e.Handled = true;
+                    break;
+                case Key.A:
+                    AutoRecognizeChectBox.IsChecked = !AutoRecognizeChectBox.IsChecked;
+                    e.Handled = true;
+                    break;
+                case Key.R:
+                    RecognizeButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                    e.Handled = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void ImageArea_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var sfd = new SaveFileDialog();
+            sfd.Filter = "Image Files (*.bmp, *.png, *.jpg)|*.bmp;*.png;*.jpg | All Files | *.*";
+            sfd.RestoreDirectory = true;//保存对话框是否记忆上次打开的目录 
+            sfd.Title = "将图片另存为选定的文件";
+            sfd.FileName = $"PcQrReader{DateTime.Now:yyyyMMddHHmmss}.png";
+            if (sfd.ShowDialog() == true)
+            {
+                var encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(this.ImageArea.Source as BitmapSource));
+                using (FileStream stream = new FileStream(sfd.FileName, FileMode.Create))
+                {
+                    encoder.Save(stream);
+                }
+            }
         }
     }
 }

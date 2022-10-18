@@ -173,13 +173,26 @@ namespace PcQrReader
     /// <inheritdoc/>
     public class CustomFilterInfo : FilterInfo
     {
+        private string _name;
+
         public CustomFilterInfo(string monikerString) : base(monikerString)
         {
         }
 
+        public CustomFilterInfo(string monikerString, string name) : this(monikerString)
+        {
+            Name = name;
+        }
+
+        public new string Name
+        {
+            get => string.IsNullOrEmpty(_name) ? base.Name : _name; 
+            private set => _name = value; 
+        }
+
         public override string ToString()
         {
-            return Name;
+            return $"{Name} (C)";
         }
 
         public static CustomFilterInfo FromFilterInfo(FilterInfo filterInfo)
