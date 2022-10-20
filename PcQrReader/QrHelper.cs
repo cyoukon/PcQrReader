@@ -97,12 +97,12 @@ namespace PcQrReader
             }
 
             //设置读取二维码
-            DecodingOptions decodeOption = new DecodingOptions();
-            decodeOption.PossibleFormats = new List<BarcodeFormat>() { BarcodeFormat.QR_CODE };
+            //DecodingOptions decodeOption = new DecodingOptions();
+            //decodeOption.PossibleFormats = new List<BarcodeFormat>() { BarcodeFormat.QR_CODE };
 
             //读取操作
             BarcodeReader reader = new BarcodeReader();
-            reader.Options = decodeOption;
+            //reader.Options = decodeOption;
             ZXing.Result result = reader.Decode(bitmap);
 
             return result?.Text;
@@ -155,12 +155,15 @@ namespace PcQrReader
             BarcodeWriter writer = new BarcodeWriter();
             writer.Format = BarcodeFormat.QR_CODE;
             QrCodeEncodingOptions options = new QrCodeEncodingOptions();
+            // // Extended Channel Interpretation (ECI) 主要用于特殊的字符集。并不是所有的扫描器都支持这种编码。
             options.DisableECI = true;
+            // 纠错级别
+            options.ErrorCorrection = ZXing.QrCode.Internal.ErrorCorrectionLevel.L;
             //设置内容编码
             options.CharacterSet = "UTF-8";
             //设置二维码的宽度和高度
-            options.Width = 500;
-            options.Height = 500;
+            options.Width = 800;
+            options.Height = 800;
             //设置二维码的边距,单位不是固定像素
             options.Margin = 1;
             writer.Options = options;

@@ -31,6 +31,13 @@ namespace PcQrReader
         {
             InitializeComponent();
 
+            this.Width = AppOptions.Width;
+            this.Height = AppOptions.Height;
+            LeftGrid.Width = new GridLength(AppOptions.LeftGridRatio, GridUnitType.Star);
+            RightGrid.Width = new GridLength(AppOptions.RightGridRatio, GridUnitType.Star);
+            UpGrid.Height = new GridLength(AppOptions.UpGridRatio, GridUnitType.Star);
+            DownGrid.Height = new GridLength(AppOptions.DownGridRatio, GridUnitType.Star);
+
             _qrHelper = new QrHelper();
         }
 
@@ -89,7 +96,7 @@ namespace PcQrReader
                     ImageArea.Source = img.ToBitmapImage();
                 }
                 Directory.CreateDirectory("Photos");
-                _imageName = $"Photos/{DateTime.Now:yyyyMMdd_HHmmss_ffff}.jpg";
+                _imageName = $"{AppOptions.AppDataFolder}/{DateTime.Now:yyyyMMdd_HHmmss_ffff}.jpg";
                 img.Save(_imageName, ImageFormat.Jpeg);
                 RecognizeButton.IsEnabled = true;
             }
@@ -130,7 +137,12 @@ namespace PcQrReader
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            Environment.Exit(0);
+            AppOptions.Width = this.Width;
+            AppOptions.Height = this.Height;
+            AppOptions.LeftGridRatio = LeftGrid.Width.Value;
+            AppOptions.RightGridRatio = RightGrid.Width.Value;
+            AppOptions.UpGridRatio = UpGrid.Height.Value;
+            AppOptions.DownGridRatio = DownGrid.Height.Value;
         }
 
         private bool ShowCodeString(string codeString)

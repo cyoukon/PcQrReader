@@ -226,12 +226,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_91B8C447F4B0FD3E7133DDC5C2D35F73"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_53C8E1ECDEA34647B2526723D305992A"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -337,6 +331,12 @@
         "OwnerKey" = "8:_6B96695D0EF38AAB97DB461AFD9C1E4B"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_91B8C447F4B0FD3E7133DDC5C2D35F73"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -409,6 +409,62 @@
     {
         "CustomAction"
         {
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_07667641D44E4AA09369046B918CDE56"
+            {
+            "Name" = "8:主输出 from PcQrReader (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_53C8E1ECDEA34647B2526723D305992A"
+            "FileType" = "3:2"
+            "InstallAction" = "3:4"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_231C9E12_8B6E_4733_8A57_B0BA8EF27AB0"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_28354377D23E45F190DBFAE4B6FE3664"
+            {
+            "Name" = "8:主输出 from PcQrReader (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_53C8E1ECDEA34647B2526723D305992A"
+            "FileType" = "3:2"
+            "InstallAction" = "3:3"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_31617C26_B2A2_42F8_AFF2_B9CAC238AA28"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_9AB830F887E040E28F0A453F9972B9FF"
+            {
+            "Name" = "8:主输出 from PcQrReader (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_53C8E1ECDEA34647B2526723D305992A"
+            "FileType" = "3:2"
+            "InstallAction" = "3:2"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_49868C86_7066_4573_AF8A_64F16EF874D6"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_A05B8B670BE64DEC85C7696D0DDB30F7"
+            {
+            "Name" = "8:主输出 from PcQrReader (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_53C8E1ECDEA34647B2526723D305992A"
+            "FileType" = "3:2"
+            "InstallAction" = "3:1"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_D6F94AEF_46CA_47D5_A136_546D012DF213"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
         }
         "DefaultFeature"
         {
@@ -1086,15 +1142,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:二维码识别器"
-        "ProductCode" = "8:{8E918663-0C9A-4BA3-8450-ECBC7AF18B52}"
-        "PackageCode" = "8:{72CD313B-B7C1-4C64-B9BA-6A74D3CC0B09}"
+        "ProductCode" = "8:{8BEE9E52-DCAB-4C26-AEF0-2224BF6C988B}"
+        "PackageCode" = "8:{B6473AD0-15F7-48B9-A174-B7E559289FE8}"
         "UpgradeCode" = "8:{430EC592-4A29-4793-9BAC-CF242FF2CEAF}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.1.0"
         "Manufacturer" = "8:ZhaoKun"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1624,7 +1680,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_53C8E1ECDEA34647B2526723D305992A"
             {
-            "SourcePath" = "8:..\\PcQrReader\\obj\\Release\\PcQrReader.exe"
+            "SourcePath" = "8:..\\PcQrReader\\obj\\Debug\\PcQrReader.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_E9ABFD59DBBE486EA4763959F82B5E90"

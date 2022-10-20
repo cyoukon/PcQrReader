@@ -7,13 +7,13 @@
         xmlns:wfi ="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
         xmlns:aforge ="clr-namespace:AForge.Controls;assembly=AForge.Controls"
         mc:Ignorable="d"
-        Title="二维码识别器" Height="337" Width="507" Loaded="Window_Loaded" Closed="Window_Closed" 
+        Title="二维码识别器" Height="350" Width="600" Loaded="Window_Loaded" Closed="Window_Closed" 
         Icon="/Resources/qr.png" PreviewKeyUp="Window_PreviewKeyUp">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition x:Name="LeftGrid" Width="*"/>
             <ColumnDefinition Width="5"/>
-            <ColumnDefinition/>
+            <ColumnDefinition x:Name="RightGrid" Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid Margin="5">
             <Grid.RowDefinitions>
@@ -54,9 +54,9 @@
         <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
         <Grid Grid.Column="2" Margin="5">
             <Grid.RowDefinitions>
-                <RowDefinition/>
+                <RowDefinition x:Name="UpGrid" Height="2*"/>
                 <RowDefinition Height="5"/>
-                <RowDefinition Height="100"/>
+                <RowDefinition x:Name="DownGrid" Height="*"/>
             </Grid.RowDefinitions>
             <Image x:Name="ImageArea" Stretch="Uniform" Source="/Resources/photo.png" MouseRightButtonUp="ImageArea_MouseRightButtonUp"></Image>
             <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>

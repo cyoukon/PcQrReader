@@ -25,11 +25,15 @@ namespace PcQrReader
             TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
             //非UI线程未捕获异常处理事件
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            LoadAppOptions();
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
+            SaveAppoptions();
             base.OnExit(e);
+
+            Environment.Exit(0);
         }
 
         void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
@@ -86,6 +90,47 @@ namespace PcQrReader
 
             }
             MessageBox.Show(message);
+        }
+
+        private void LoadAppOptions()
+        {
+            if (!File.Exists(AppOptions.AppSettingsPath))
+            {
+                Directory.CreateDirectory(AppOptions.AppDataFolder);
+                return;
+            }
+            var settingLines = File.ReadAllLines(AppOptions.AppSettingsPath);
+            var settingProps = typeof(AppOptions).GetProperties();
+            foreach (var line in settingLines)
+            {
+                var keyValue = line.Split('=');
+                if (keyValue.Length < 2)
+                {
+                    return;
+                }
+                var key = keyValue.First().Trim();
+                var prop = settingProps.FirstOrDefault(p => p.CanWrite && p.Name.Equals(key, StringComparison.CurrentCultureIgnoreCase));
+                var value = Convert.ChangeType(keyValue.Last().Trim(), prop.PropertyType);
+                if (prop is null)
+                {
+                    return;
+                }
+                prop.SetValue(typeof(AppOptions), value);
+            }
+        }
+
+        private void SaveAppoptions()
+        {
+            var settingProps = typeof(AppOptions).GetProperties();
+            var settingString = new StringBuilder();
+            foreach (var prop in settingProps)
+            {
+                if (prop.CanWrite)
+                {
+                    settingString.AppendLine($"{prop.Name}={prop.GetValue(typeof(AppOptions))}");
+                }
+            }
+            File.WriteAllText(AppOptions.AppSettingsPath, settingString.ToString());
         }
     }
 }
