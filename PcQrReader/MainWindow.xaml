@@ -58,7 +58,8 @@
                 <RowDefinition Height="5"/>
                 <RowDefinition x:Name="DownGrid" Height="*"/>
             </Grid.RowDefinitions>
-            <Image x:Name="ImageArea" Stretch="Uniform" Source="/Resources/photo.png" MouseRightButtonUp="ImageArea_MouseRightButtonUp"></Image>
+            <Image x:Name="ImageArea" Stretch="Uniform" Source="/Resources/photo.png" 
+                   MouseRightButtonUp="ImageArea_MouseRightButtonUp" AllowDrop="True" Drop="ImageArea_Drop" DragEnter="ImageArea_DragEnter"></Image>
             <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
             <Grid Grid.Row="2">
                 <Grid.RowDefinitions>
@@ -71,7 +72,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <CheckBox Grid.Column="0" x:Name="AutoRecognizeChectBox" VerticalAlignment="Center" IsEnabled="False"
-                          Checked="AutoRecognizeChectBox_Checked"  Unchecked="AutoRecognizeChectBox_Unchecked">
+                          Checked="AutoRecognizeChectBox_Checked" Unchecked="AutoRecognizeChectBox_Unchecked">
                         自动识别(A)
                     </CheckBox>
                     <Button Grid.Column="1" x:Name="RecognizeButton" Margin="10" IsEnabled="False"

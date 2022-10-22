@@ -33,6 +33,15 @@ namespace PcQrReader
 
             this.Width = AppOptions.Width;
             this.Height = AppOptions.Height;
+            if (AppOptions.Left <= 0 || AppOptions.Top <= 0)
+            {
+                this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            }
+            else
+            {
+                this.Left = AppOptions.Left;
+                this.Top = AppOptions.Top;
+            }
             LeftGrid.Width = new GridLength(AppOptions.LeftGridRatio, GridUnitType.Star);
             RightGrid.Width = new GridLength(AppOptions.RightGridRatio, GridUnitType.Star);
             UpGrid.Height = new GridLength(AppOptions.UpGridRatio, GridUnitType.Star);
@@ -74,16 +83,61 @@ namespace PcQrReader
             Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
             dialog.DefaultExt = ".png";  // 设置默认类型
                                          // 设置可选格式
-            dialog.Filter = @"图像文件(*.jpg,*.png,*.tif,*.gif)|*jpeg;*.jpg;*.png;*.tif;*.tiff;*.gif
-      |JPEG(*.jpeg, *.jpg)|*.jpeg;*.jpg|PNG(*.png)|*.png|GIF(*.gif)|*.gif
-      |TIF(*.tif,*.tiff)|*.tif;*.tiff";
+            dialog.Filter = $"图像文件({string.Join(",", AppOptions.PictureSuffix)})|{string.Join(";", AppOptions.PictureSuffix)}|所有文件|*.*";
             // 打开选择框选择
             var result = dialog.ShowDialog();
             if (result == true)
             {
                 _imageName = dialog.FileName; // 获取选择的文件名
-                ImageArea.Source = new BitmapImage(new Uri(_imageName, UriKind.Absolute));
-                RecognizeButton.IsEnabled = true;
+                ShowImage(_imageName);
+            }
+        }
+
+        private void ShowImage(string imageName)
+        {
+            ImageArea.Source = new BitmapImage(new Uri(imageName, UriKind.Absolute));
+            RecognizeButton.IsEnabled = true;
+        }
+
+        private void ImageArea_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effects = DragDropEffects.Link;
+            }
+            else
+            {
+                e.Effects = DragDropEffects.None;
+            }
+        }
+
+        private void ImageArea_Drop(object sender, DragEventArgs e)
+        {
+            try
+            {
+                var fileName = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+                // 快捷方式需要获取目标文件路径
+                if (fileName.ToLower().EndsWith("lnk"))
+                {
+                    var shell = new IWshRuntimeLibrary.WshShell();
+                    var wshShortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(fileName);
+                    fileName = wshShortcut.TargetPath;
+                }
+                var extension = System.IO.Path.GetExtension(fileName);
+                if (!AppOptions.PictureSuffix.Any(s => s.EndsWith(extension, StringComparison.CurrentCultureIgnoreCase)))
+                {
+                    var message = $"该文件后缀为 {extension}，似乎不是图片，确定要拖入吗？";
+                    if (MessageBox.Show(message, "确认窗口", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                    {
+                        return;
+                    }
+                }
+                _imageName = fileName;
+                ShowImage(_imageName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -96,7 +150,7 @@ namespace PcQrReader
                     ImageArea.Source = img.ToBitmapImage();
                 }
                 Directory.CreateDirectory("Photos");
-                _imageName = $"{AppOptions.AppDataFolder}/{DateTime.Now:yyyyMMdd_HHmmss_ffff}.jpg";
+                _imageName = GetNewImageName();
                 img.Save(_imageName, ImageFormat.Jpeg);
                 RecognizeButton.IsEnabled = true;
             }
@@ -115,6 +169,8 @@ namespace PcQrReader
                     var codeString = _qrHelper.ScanBarcode(img);
                     if (ShowCodeString(codeString))
                     {
+                        _imageName = GetNewImageName();
+                        img.Save(_imageName);
                         break;
                     }
                 }
@@ -139,6 +195,8 @@ namespace PcQrReader
         {
             AppOptions.Width = this.Width;
             AppOptions.Height = this.Height;
+            AppOptions.Left = this.Left;
+            AppOptions.Top = this.Top;
             AppOptions.LeftGridRatio = LeftGrid.Width.Value;
             AppOptions.RightGridRatio = RightGrid.Width.Value;
             AppOptions.UpGridRatio = UpGrid.Height.Value;
@@ -232,6 +290,11 @@ namespace PcQrReader
                     encoder.Save(stream);
                 }
             }
+        }
+
+        private static string GetNewImageName()
+        {
+            return $"{AppOptions.AppDataFolder}/{AppOptions.TempFileSuffix}{DateTime.Now:yyyyMMdd_HHmmss_ffff}.jpg";
         }
     }
 }
