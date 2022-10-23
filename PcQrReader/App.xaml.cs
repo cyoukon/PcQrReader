@@ -17,10 +17,13 @@ namespace PcQrReader
     /// </summary>
     public partial class App : Application
     {
+        private System.Threading.Mutex _mutex;
+
         protected override void OnStartup(StartupEventArgs e)
         {
-            var mutex = new System.Threading.Mutex(true, "ElectronicNeedleTherapySystem", out var ret);
-            if (!ret)
+            // 注意mutex不能被回收，否则就无法发挥作用了。所以只能定义在类里面。
+            _mutex = new System.Threading.Mutex(true, "OnlyRun_CRNS");
+            if (!_mutex.WaitOne(0, false))
             {
                 MessageBox.Show("已有一个程序实例运行");
                 Environment.Exit(0);
