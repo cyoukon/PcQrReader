@@ -1142,15 +1142,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:二维码识别器"
-        "ProductCode" = "8:{8BEE9E52-DCAB-4C26-AEF0-2224BF6C988B}"
-        "PackageCode" = "8:{B6473AD0-15F7-48B9-A174-B7E559289FE8}"
+        "ProductCode" = "8:{7FD5B9AF-23F7-4C58-8E1C-6202B8B010AE}"
+        "PackageCode" = "8:{B0110714-6B0C-4C36-B2F3-B077E69C87BC}"
         "UpgradeCode" = "8:{430EC592-4A29-4793-9BAC-CF242FF2CEAF}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.1.0"
+        "ProductVersion" = "8:1.1.1"
         "Manufacturer" = "8:ZhaoKun"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1275,6 +1275,20 @@
             "Folder" = "8:_AAFAFEC272E24D608BA904AA1DA2198F"
             "WorkingFolder" = "8:_E9ABFD59DBBE486EA4763959F82B5E90"
             "Icon" = "8:_24E15A3BB8A543A189C52441D975A8F5"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_1E1B1FF0590F4E6AAF55200D83258717"
+            {
+            "Name" = "8:二维码识别器"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_53C8E1ECDEA34647B2526723D305992A"
+            "Folder" = "8:_D242DE8A506E4C118DB6C0209FB82E91"
+            "WorkingFolder" = "8:_E9ABFD59DBBE486EA4763959F82B5E90"
+            "Icon" = "8:"
             "Feature" = "8:"
             }
         }
@@ -1680,7 +1694,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_53C8E1ECDEA34647B2526723D305992A"
             {
-            "SourcePath" = "8:..\\PcQrReader\\obj\\Debug\\PcQrReader.exe"
+            "SourcePath" = "8:..\\PcQrReader\\obj\\Release\\PcQrReader.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_E9ABFD59DBBE486EA4763959F82B5E90"
